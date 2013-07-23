@@ -11,11 +11,11 @@ namespace ExportToExcelFromDataTable
     {
         const string Connectionstr = "server=bigccops;uid=root;pwd=345345;database=isr_metrics;pooling=true;min pool size=5;max pool size=128;Persist Security Info=True;";
 
-        public DataSet GetEGNAL(string query)
+        public DataSet GetEGNAL()
         {
             DataSet result = new DataSet();
 
-            string sql = string.Format("SELECT * FROM eg_named_account_list where L2_Account like '%{0}%' LIMIT 10 ", query.Replace("*", "%"));
+            string sql = string.Format("SELECT * FROM eg_named_account_list ");
 
             var db = new MySqlHelper(Connectionstr);
             result = db.ExecuteDataSet(sql);
@@ -23,11 +23,11 @@ namespace ExportToExcelFromDataTable
             return result;
         }
 
-        public DataSet GetEGNALByName(string query, string name)
+        public DataSet GetEGNALByName(string name)
         {
             DataSet result = new DataSet();
 
-            string sql = string.Format("SELECT * FROM eg_named_account_list WHERE L2_Account like '%{0}%' AND ISR_Manager = '{1}' LIMIT 10 ", query.Replace("*", "%"), name);
+            string sql = string.Format("SELECT * FROM eg_named_account_list WHERE ISR_Manager = '{1}' LIMIT 10 ", name);
 
             var db = new MySqlHelper(Connectionstr);
             result = db.ExecuteDataSet(sql);
