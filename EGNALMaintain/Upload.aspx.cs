@@ -5,6 +5,7 @@ using System.Data.Common;
 using System.Data.Odbc;
 using System.Data.OleDb;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -38,7 +39,7 @@ namespace EGNALMaintain
                         string path = string.Concat(Server.MapPath("~/TempFiles/"), FuPath.FileName);
                         FuPath.SaveAs(path);
                         string sheetName = "Sheet1";
-                        ds = ExcelHandler.ExportExcel2DataSet(path,sheetName);
+                        ds = ExcelHandler.ExportExcel2DataSet(path, sheetName);
 
                         //GridView1.DataSource = ds;
                         //GridView1.DataBind();
@@ -47,10 +48,13 @@ namespace EGNALMaintain
                         service.UpdateEGNAL(ds);
                         Label1.Text = "导入数据成功. ";
                     }
-
+                    catch (IOException ex)
+                    {
+                        Label1.Text = "文件上传失败，缓冲区可能正被占用。请稍候重试！";
+                    }
                     catch (Exception ex)
                     {
-                        Label1.Text = "导入数据失败。 " +ex.Message;
+                        Label1.Text = "导入数据失败。 " + ex.Message;
                     }
                 }
             }
